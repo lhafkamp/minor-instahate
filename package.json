@@ -1,0 +1,35 @@
+{
+  "name": "minor-real-time-web",
+  "version": "1.0.0",
+  "description": "Assignment for the course Real-Time Web",
+  "main": "app.js",
+  "scripts": {
+    "watch": "watchify public/js/app.js -o public/js/bundle.js",
+    "build": "browserify public/js/app.js -o public/js/bundle.js",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lhafkamp/minor-real-time-web.git"
+  },
+  "author": "Luuk Hafkamp",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lhafkamp/minor-real-time-web/issues"
+  },
+  "homepage": "https://github.com/lhafkamp/minor-real-time-web#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "dotenv": "^4.0.0",
+    "ejs": "^2.5.6",
+    "express": "^4.15.2",
+    "express-session": "^1.15.2",
+    "mongoose": "^4.9.6",
+    "request": "^2.81.0",
+    "socket.io": "^1.7.3"
+  },
+  "devDependencies": {
+    "browserify": "^14.3.0",
+    "watchify": "^3.9.0"
+  }
+}

@@ -1,0 +1,23 @@
+<%- include ./part/header.ejs %>
+
+  <h1>Welcome <%= userName %></h1>
+  <h2>Create a perfect online society!</h2>
+  <p>Rate pictures from everyone who logs in. If a picture rating drops below 0, it will be removed from our online society</p>
+
+	<div class="pics">
+		<% imageArray.forEach((image) => { %>
+			<div class="pic">
+				<div>
+					<img src="<%= image %>"/>
+					<p>100</p>
+				</div>
+				<div>
+					<button>bad</button>
+					<button>good</button>
+				</div>
+			</div>
+		<% }); %>
+	</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<%- include ./part/footer.ejs %>
