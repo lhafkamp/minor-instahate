@@ -1,17 +1,23 @@
 const express = require('express')
 const session = require('express-session')
 const mongoose = require('mongoose')
-// const MongoStore = require('connect-mongo')(session)
 const bodyParser = require('body-parser')
+const path = require('path')
 
+// require models
 require('./models/User')
+require('./models/Image')
+
+// require routes
 const routes = require('./routes/index')
 
+// set up express
 const app = express()
 
+// io setup
 const http = require('http').Server(app)
-const path = require('path')
 const io = require('socket.io')(http)
+app.set('io', io)
 
 // get the public files
 app.use(express.static(path.join(__dirname, 'public')))
@@ -28,7 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 mongoose.connect(process.env.DATABASE)
 mongoose.Promise = global.Promise
 mongoose.connection.on('error', (err) => {
-  console.error('mongoose is not connecting');
+  console.error('mongoose is not connecting')
 })
 
 // store data from request to request
