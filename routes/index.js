@@ -7,5 +7,6 @@ router.get('/', userController.homePage)
 router.get('/succes', userController.authSucces)
 
 router.get('/main', imageController.mainPage)
+router.post('/main/:id/rating', userController.storeRating)
 
 module.exports = router

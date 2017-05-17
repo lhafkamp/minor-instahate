@@ -53,14 +53,9 @@ p {
 	font-size: 1em;
 }
 
-.pic button:hover {
-	opacity: .5;
-}
-
-.pic button:first-of-type {
-	background: #870121;
-}
-
-.pic button:last-of-type {
-	background: #23C469;
+.active {
+	background: red;
+	color: red;
+	opacity: .3;
+	font-size: 3em;
 }
