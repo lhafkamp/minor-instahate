@@ -1,3 +1,3 @@
 console.log('ping');
-// require('./x');
+require('./io');
 console.log('pong');

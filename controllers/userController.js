@@ -58,15 +58,3 @@ exports.authSucces = (req, res) => {
 		}
 	})
 }
-
-exports.mainPage = (req, res) => {
-	setInterval(() => {
-		request(`https://api.instagram.com/v1/users/${req.session.userId}/media/recent/?access_token=${req.session.token}`, (err, response, body) => {
-			data = JSON.parse(body)
-		})
-	}, 3000)
-
-	res.render('main', {
-		userName: req.session.userName
-	})
-}
