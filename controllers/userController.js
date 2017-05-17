@@ -1,9 +1,9 @@
-// const mongoose = require('mongoose')
+const mongoose = require('mongoose')
 // const User = mongoose.model('User')
-
 const request = require('request')
 require('dotenv').config()
 
+// env vars
 const client_id = process.env.CLIENT_ID
 const client_secret = process.env.CLIENT_SECRET
 const redirect_uri = process.env.REDIRECT_URI
@@ -30,7 +30,18 @@ exports.authSucces = (req, res) => {
 			console.error('auth error, everything sucks')
 		} else {
 			data = JSON.parse(body)
-			res.render('succes')
+
+			req.session.user = data.user.id
+			req.session.userName = data.user.full_name
+			req.session.token = data.access_token
+
+			res.redirect('main')
 		}
+	})
+}
+
+exports.mainPage = (req, res) => {
+	res.render('main', {
+		userName: req.session.userName
 	})
 }

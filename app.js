@@ -2,6 +2,7 @@ const express = require('express')
 const routes = require('./routes/index')
 const session = require('express-session')
 const mongoose = require('mongoose')
+const MongoStore = require('connect-mongo')(session)
 const bodyParser = require('body-parser')
 
 const app = express()
@@ -21,8 +22,27 @@ app.set('view engine', 'ejs')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
+// connect to the database
+mongoose.connect(process.env.DATABASE)
+mongoose.Promise = global.Promise
+mongoose.connection.on('error', (err) => {
+  console.error('mongoose is not connecting');
+})
+
+// import the models
+require('./models/User')
+
+// store data from request to request
+app.use(session({
+	secret: process.env.SES_SECRET,
+	key: process.env.SES_KEY,
+	resave: false,
+	saveUninitialized: false,
+	store: new MongoStore({ mongooseConnection: mongoose.connection })
+}))
+
 // handle routes
-app.use('/', routes);
+app.use('/', routes)
 
 // run the app
 http.listen(4000, () => {
