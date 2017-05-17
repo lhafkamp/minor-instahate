@@ -24,8 +24,8 @@ exports.authSucces = (req, res) => {
 			redirect_uri: redirect_uri,
 			code: req.query.code
 		}
-	}, (error, response, body) => {
-		if (error) {
+	}, (err, response, body) => {
+		if (err) {
 			console.error('auth error, everything sucks')
 		} else {
 			data = JSON.parse(body)
@@ -50,7 +50,7 @@ exports.authSucces = (req, res) => {
 				}
 			})
 
-			req.session.id = userId
+			req.session.userId = userId
 			req.session.userName = userName
 			req.session.token = token
 
@@ -60,6 +60,12 @@ exports.authSucces = (req, res) => {
 }
 
 exports.mainPage = (req, res) => {
+	setInterval(() => {
+		request(`https://api.instagram.com/v1/users/${req.session.userId}/media/recent/?access_token=${req.session.token}`, (err, response, body) => {
+			data = JSON.parse(body)
+		})
+	}, 3000)
+
 	res.render('main', {
 		userName: req.session.userName
 	})
