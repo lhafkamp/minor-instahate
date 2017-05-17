@@ -1,9 +1,8 @@
 const mongoose = require('mongoose')
-// const User = mongoose.model('User')
+const User = mongoose.model('User')
 const request = require('request')
 require('dotenv').config()
 
-// env vars
 const client_id = process.env.CLIENT_ID
 const client_secret = process.env.CLIENT_SECRET
 const redirect_uri = process.env.REDIRECT_URI
@@ -30,10 +29,30 @@ exports.authSucces = (req, res) => {
 			console.error('auth error, everything sucks')
 		} else {
 			data = JSON.parse(body)
+			const userId = data.user.id
+			const userName = data.user.full_name
+			const token = data.access_token
 
-			req.session.user = data.user.id
-			req.session.userName = data.user.full_name
-			req.session.token = data.access_token
+			User.find({ user_id: userId }, (err, user) => {
+				if (user.length > 0) {
+					console.log('user found, carry on')
+				} else {
+					console.log('user NOT found, creating new user..')
+					const newUser = new User({
+						user_id: userId,
+						name: userName
+					});
+
+					newUser.save((err) => {
+						if (err) throw err;
+						console.log('new user saved succesfully!')
+					})
+				}
+			})
+
+			req.session.id = userId
+			req.session.userName = userName
+			req.session.token = token
 
 			res.redirect('main')
 		}

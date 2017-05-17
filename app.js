@@ -1,9 +1,11 @@
 const express = require('express')
-const routes = require('./routes/index')
 const session = require('express-session')
 const mongoose = require('mongoose')
-const MongoStore = require('connect-mongo')(session)
+// const MongoStore = require('connect-mongo')(session)
 const bodyParser = require('body-parser')
+
+require('./models/User')
+const routes = require('./routes/index')
 
 const app = express()
 
@@ -29,16 +31,12 @@ mongoose.connection.on('error', (err) => {
   console.error('mongoose is not connecting');
 })
 
-// import the models
-require('./models/User')
-
 // store data from request to request
 app.use(session({
 	secret: process.env.SES_SECRET,
 	key: process.env.SES_KEY,
 	resave: false,
-	saveUninitialized: false,
-	store: new MongoStore({ mongooseConnection: mongoose.connection })
+	saveUninitialized: false
 }))
 
 // handle routes
