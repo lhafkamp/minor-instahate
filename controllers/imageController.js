@@ -4,19 +4,19 @@ const User = mongoose.model('User')
 const request = require('request')
 
 exports.mainPage = async (req, res) => {
-	let imageArray = []
-	let dislikes = []
-	
+	const imageArray = []
+	const dislikes = []
+
 	// find all images to display on start
 	await Image.find({}, (err, images) => {
-		images.forEach(obj => {
+		images.forEach((obj) => {
 			imageArray.push(obj)
 		})
 	})
 
 	// find a dislike list to see which image has been rated already
 	await User.find({ user_id: req.session.userId }, (err, user) => {
-		user[0].dislikes.forEach(dislike => {
+		user[0].dislikes.forEach((dislike) => {
 			dislikes.push(dislike.toString())
 		})
 	})
@@ -24,15 +24,15 @@ exports.mainPage = async (req, res) => {
 	res.render('main', {
 		userName: req.session.userName,
 		images: imageArray,
-		dislikes: dislikes
+		dislikes: dislikes,
 	})
 
 	const io = req.app.get('io')
-	
-	io.on('connection', socket => {
+
+	io.on('connection', (socket) => {
 		console.log('socket connected!')
 	})
-	
+
 	// setInterval(() => {
 	// 	request(`https://api.instagram.com/v1/users/${req.session.userId}/media/recent/?access_token=${req.session.token}`, (err, response, body) => {
 	// 		data = JSON.parse(body)

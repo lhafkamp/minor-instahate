@@ -1,9 +1,9 @@
 const socket = io()
 const addNewPic = document.querySelector('.pics')
 
-socket.on('newPic', data => {
+socket.on('newPic', (data) => {
 	const newPics = data.image
-	addNewPic.insertAdjacentHTML('beforeend', 
+	addNewPic.insertAdjacentHTML('beforeend',
 	`
 		<div class="pic">
 			<div>
