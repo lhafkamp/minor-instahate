@@ -29,9 +29,14 @@ exports.authSucces = (req, res) => {
 			console.error('auth error, everything sucks')
 		} else {
 			data = JSON.parse(body)
+			
 			const userId = data.user.id
 			const userName = data.user.full_name
 			const token = data.access_token
+
+			req.session.userId = userId
+			req.session.userName = userName
+			req.session.token = token
 
 			User.find({ user_id: userId }, (err, user) => {
 				if (user.length > 0) {
@@ -48,35 +53,8 @@ exports.authSucces = (req, res) => {
 						console.log('new user saved succesfully!')
 					})
 				}
+				res.redirect('main')
 			})
-
-			req.session.userId = userId
-			req.session.userName = userName
-			req.session.token = token
-
-			res.redirect('main')
 		}
 	})
-}
-
-exports.storeRating = async (req, res) => {
-	let userId
-	const dislikes = []
-
-	await User.find({ user_id: req.session.userId }, (err, user) => {
-		userId = user[0]._id
-		user[0].dislikes.forEach((obj) => {
-			const strings = `${obj}`
-			dislikes.push(strings)
-		})
-		// dislikes.push(user[0].dislikes)
-	})
-
-	const operator = dislikes.includes(req.params.id) ? '$pull' : '$addToSet'
-	const user = await User
-		.findByIdAndUpdate(userId,
-			{ [operator]: { dislikes: req.params.id } },
-			{ new: true }
-		)
-	res.json(user)
 }
