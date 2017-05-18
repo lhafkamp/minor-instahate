@@ -61,21 +61,22 @@ exports.authSucces = (req, res) => {
 
 exports.storeRating = async (req, res) => {
 	let userId
-	let dislikes = []
+	const dislikes = []
 
 	await User.find({ user_id: req.session.userId }, (err, user) => {
 		userId = user[0]._id
-		dislikes.push(user[0].dislikes)	
+		user[0].dislikes.forEach((obj) => {
+			const strings = `${obj}`
+			dislikes.push(strings)
+		})
+		// dislikes.push(user[0].dislikes)
 	})
 
 	const operator = dislikes.includes(req.params.id) ? '$pull' : '$addToSet'
-
 	const user = await User
 		.findByIdAndUpdate(userId,
-			{ [operator]: { dislikes: req.params.id }},
+			{ [operator]: { dislikes: req.params.id } },
 			{ new: true }
 		)
-
 	res.json(user)
 }
-
