@@ -2,6 +2,7 @@ const axios = require('./axios')
 const dislikeForms = document.querySelectorAll('form')
 
 function ajaxDislike(e) {
+	console.log('HOI');
 	e.preventDefault()
 	axios
 		.post(this.action)
@@ -9,7 +10,6 @@ function ajaxDislike(e) {
 			const disliked = this.dislike.classList.toggle('active')
 			console.log(disliked)
 		})
-		.catch(console.error('woooow'))
 }
 
 dislikeForms.forEach(dislike => dislike.addEventListener('click', ajaxDislike))

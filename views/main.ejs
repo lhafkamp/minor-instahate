@@ -4,7 +4,8 @@
 	<h1>Welcome <%= userName %></h1>
 
 	<div class="pics">
-		<% images.forEach(image => { %>
+		<% reverseArray = images.reverse() %>
+		<% reverseArray.forEach(image => { %>
 		<% const ratingClass = dislikes.includes(image._id.toString()) ? 'active' : '' %>
 		
 			<div class="pic">

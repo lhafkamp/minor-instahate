@@ -202,30 +202,44 @@ require('./io')
 }).call(this,require('_process'))
 },{"_process":1}],4:[function(require,module,exports){
 const socket = io()
+const axios = require('./axios')
 const addNewPic = document.querySelector('.pics')
 
 socket.on('newPic', (data) => {
-	const newPics = data.image
-	addNewPic.insertAdjacentHTML('beforeend',
+	addNewPic.insertAdjacentHTML('afterbegin',
 	`
 		<div class="pic">
 			<div>
-				<img src="${newPics}"/>
+				<img src="${data.img.image}"/>
 				<p>100</p>
 			</div>
-			<div>
-				<button>bad</button>
-				<button>good</button>
-			</div>
+			<form method="POST" action="/main/${data.img._id}/rating">
+				<button type="submit" name="dislike" class="dislike">Dislike</button>
+			</form>
 		</div>
 	`)
+
+	const newForm = document.querySelector('.pic:first-of-type form')
+
+	function ajaxDislike(e) {
+		e.preventDefault()
+		axios
+			.post(this.action)
+			.then((res) => {
+				const disliked = this.dislike.classList.toggle('active')
+				console.log(disliked)
+			})
+	}
+
+	newForm.addEventListener('click', ajaxDislike)
 })
 
-},{}],5:[function(require,module,exports){
+},{"./axios":3}],5:[function(require,module,exports){
 const axios = require('./axios')
 const dislikeForms = document.querySelectorAll('form')
 
 function ajaxDislike(e) {
+	console.log('HOI');
 	e.preventDefault()
 	axios
 		.post(this.action)
@@ -233,7 +247,6 @@ function ajaxDislike(e) {
 			const disliked = this.dislike.classList.toggle('active')
 			console.log(disliked)
 		})
-		.catch(console.error('woooow'))
 }
 
 dislikeForms.forEach(dislike => dislike.addEventListener('click', ajaxDislike))

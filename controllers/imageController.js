@@ -33,25 +33,31 @@ exports.mainPage = async (req, res) => {
 		console.log('socket connected!')
 	})
 
-	// setInterval(() => {
-	// 	request(`https://api.instagram.com/v1/users/${req.session.userId}/media/recent/?access_token=${req.session.token}`, (err, response, body) => {
-	// 		data = JSON.parse(body)
-	// 		imageData = data.data[0].images.low_resolution.url
+	setInterval(() => {
+		request(`https://api.instagram.com/v1/users/${req.session.userId}/media/recent/?access_token=${req.session.token}`, (err, response, body) => {
+			data = JSON.parse(body)
+			imageData = data.data[0].images.low_resolution.url
 
-	// 		Image.find({ image: imageData }, (err, image) => {
-	// 			if (!image.length > 0) {
-	// 				const img = new Image({
-	// 					image: imageData
-	// 				})
+			Image.find({ image: imageData }, (err, image) => {
+				if (!image.length > 0) {
+					const img = new Image({
+						image: imageData
+					})
 
-	// 				img.save(err => {
-	// 					if (err) throw err
-	// 					console.log('new image saved succesfully!')
-	// 				})
+					img.save(err => {
+						if (err) throw err
+						console.log('new image saved succesfully!')
+					})
 
-	// 				io.sockets.emit('newPic', img)
-	// 			}
-	// 		})
-	// 	})
-	// }, 4000)
+					// get the img and dislikes to send to the client
+					const obj = {
+						img: img,
+						dislikes: dislikes
+					}
+
+					io.sockets.emit('newPic', obj)
+				}
+			})
+		})
+	}, 4000)
 }
