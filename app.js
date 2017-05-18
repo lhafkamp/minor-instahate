@@ -34,7 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 mongoose.connect(process.env.DATABASE)
 mongoose.Promise = global.Promise
 mongoose.connection.on('error', (err) => {
-  console.error('mongoose is not connecting')
+	console.error('mongoose is not connecting')
 })
 
 // store data from request to request
@@ -42,7 +42,7 @@ app.use(session({
 	secret: process.env.SES_SECRET,
 	key: process.env.SES_KEY,
 	resave: false,
-	saveUninitialized: false
+	saveUninitialized: false,
 }))
 
 // handle routes
@@ -50,5 +50,5 @@ app.use('/', routes)
 
 // run the app
 http.listen(4000, () => {
-  console.log('running on', `http://localhost:${http.address().port}`)
+	console.log('running on', `http://localhost:${http.address().port}`)
 })

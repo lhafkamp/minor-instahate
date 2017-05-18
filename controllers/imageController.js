@@ -1,27 +1,38 @@
 const mongoose = require('mongoose')
 const Image = mongoose.model('Image')
+const User = mongoose.model('User')
 const request = require('request')
 
-exports.mainPage = (req, res) => {
-	Image.find({}, (err, images) => {
-		let imageArray = []
+exports.mainPage = async (req, res) => {
+	const imageArray = []
+	const dislikes = []
 
-		images.forEach(obj => {
-			imageArray.push(obj.image)
+	// find all images to display on start
+	await Image.find({}, (err, images) => {
+		images.forEach((obj) => {
+			imageArray.push(obj)
 		})
+	})
 
-		res.render('main', {
-			userName: req.session.userName,
-			images: imageArray
+	// find a dislike list to see which image has been rated already
+	await User.find({ user_id: req.session.userId }, (err, user) => {
+		user[0].dislikes.forEach((dislike) => {
+			dislikes.push(dislike.toString())
 		})
+	})
+
+	res.render('main', {
+		userName: req.session.userName,
+		images: imageArray,
+		dislikes: dislikes,
 	})
 
 	const io = req.app.get('io')
-	
-	io.on('connection', socket => {
+
+	io.on('connection', (socket) => {
 		console.log('socket connected!')
 	})
-	
+
 	setInterval(() => {
 		request(`https://api.instagram.com/v1/users/${req.session.userId}/media/recent/?access_token=${req.session.token}`, (err, response, body) => {
 			data = JSON.parse(body)
@@ -38,9 +49,15 @@ exports.mainPage = (req, res) => {
 						console.log('new image saved succesfully!')
 					})
 
-					io.sockets.emit('newPic', img)
+					// get the img and dislikes to send to the client
+					const obj = {
+						img: img,
+						dislikes: dislikes
+					}
+
+					io.sockets.emit('newPic', obj)
 				}
 			})
 		})
-	}, 6000)
+	}, 4000)
 }

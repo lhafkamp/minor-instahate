@@ -1,21 +1,23 @@
 <%- include ./part/header.ejs %>
 
+
 	<h1>Welcome <%= userName %></h1>
-	<h2>Create a perfect online society!</h2>
-	<p>Rate pictures from everyone who logs in. If a picture rating drops below 0, it will be removed from our online society</p>
 
 	<div class="pics">
-		<% images.forEach(image => { %>
+		<% reverseArray = images.reverse() %>
+		<% reverseArray.forEach(image => { %>
+		<% const ratingClass = dislikes.includes(image._id.toString()) ? 'active' : '' %>
+		
 			<div class="pic">
 				<div>
-					<img src="<%= image %>"/>
+					<img src="<%= image.image %>"/>
 					<p>100</p>
 				</div>
-				<div>
-					<button>bad</button>
-					<button>good</button>
-				</div>
+				<form method="POST" action="/main/<%= image._id %>/rating">
+					<button type="submit" name="dislike" class="dislike <%= ratingClass %>">Dislike</button>
+				</form>
 			</div>
+		
 		<% }) %>
 	</div>
 

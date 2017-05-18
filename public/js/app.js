@@ -1,3 +1,2 @@
-console.log('ping');
-require('./io');
-console.log('pong');
+require('./rating')
+require('./io')
