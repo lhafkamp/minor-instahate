@@ -211,7 +211,6 @@ socket.on('newPic', (data) => {
 		<div class="pic">
 			<div>
 				<img src="${data.img.image}"/>
-				<p>100</p>
 			</div>
 			<form method="POST" action="/main/${data.img._id}/rating">
 				<button type="submit" name="dislike" class="dislike">Dislike</button>
@@ -226,8 +225,8 @@ socket.on('newPic', (data) => {
 		axios
 			.post(this.action)
 			.then((res) => {
-				const disliked = this.dislike.classList.toggle('active')
-				console.log(disliked)
+				const disliked = this.dislike.classList.add('active')
+				document.querySelector('h2').textContent = res.data.dislikes.length
 			})
 	}
 
@@ -239,13 +238,12 @@ const axios = require('./axios')
 const dislikeForms = document.querySelectorAll('form')
 
 function ajaxDislike(e) {
-	console.log('HOI');
 	e.preventDefault()
 	axios
 		.post(this.action)
 		.then((res) => {
-			const disliked = this.dislike.classList.toggle('active')
-			console.log(disliked)
+			const disliked = this.dislike.classList.add('active')
+			document.querySelector('h2').textContent = res.data.dislikes.length
 		})
 }
 

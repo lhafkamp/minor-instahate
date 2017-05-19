@@ -1,6 +1,7 @@
 <%- include ./part/header.ejs %>
 
 	<h1>Welcome <%= userName %></h1>
+	<h2><%= dislikes.length %></h2>
 
 	<div class="pics">
 		<% reverseArray = images.reverse() %>
@@ -10,7 +11,6 @@
 			<div class="pic">
 				<div>
 					<img src="<%= image.image %>"/>
-					<p>100</p>
 				</div>
 				<form method="POST" action="/main/<%= image._id %>/rating">
 					<button type="submit" name="dislike" class="dislike <%= ratingClass %>">Dislike</button>
