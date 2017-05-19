@@ -35,6 +35,13 @@ exports.mainPage = (req, res) => {
 	const io = req.app.get('io')
 	io.on('connection', (socket) => {
 		console.log('socket connected!')
+		socket.on('disconnect', () => {
+			console.log('socket disconnected')
+		})
+
+		socket.on('title', () => {
+			console.log('title incoming')
+		})
 	})
 
 	setInterval(() => {

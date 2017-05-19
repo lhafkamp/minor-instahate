@@ -46,7 +46,7 @@ exports.authSucces = (req, res) => {
 					const newUser = new User({
 						user_id: userId,
 						name: userName
-					});
+					})
 
 					newUser.save((err) => {
 						if (err) throw err

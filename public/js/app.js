@@ -1,2 +1,2 @@
 require('./rating')
-require('./io')
+require('./newImage')
