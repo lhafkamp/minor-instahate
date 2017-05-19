@@ -211,7 +211,6 @@ socket.on('newPic', (data) => {
 		<div class="pic">
 			<div>
 				<img src="${data.img.image}"/>
-				<p>100</p>
 			</div>
 			<form method="POST" action="/main/${data.img._id}/rating">
 				<button type="submit" name="dislike" class="dislike">Dislike</button>
@@ -227,7 +226,7 @@ socket.on('newPic', (data) => {
 			.post(this.action)
 			.then((res) => {
 				const disliked = this.dislike.classList.add('active')
-				console.log(disliked)
+				document.querySelector('h2').textContent = res.data.dislikes.length
 			})
 	}
 
@@ -244,7 +243,7 @@ function ajaxDislike(e) {
 		.post(this.action)
 		.then((res) => {
 			const disliked = this.dislike.classList.add('active')
-			console.log(disliked)
+			document.querySelector('h2').textContent = res.data.dislikes.length
 		})
 }
 

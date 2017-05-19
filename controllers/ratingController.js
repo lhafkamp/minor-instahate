@@ -4,7 +4,7 @@ const Image = mongoose.model('Image')
 
 exports.rating = async (req, res) => {
 	const dislikes = await req.session.user[0].dislikes.map(obj => obj.toString())
-	const operator = await '$addToSet'
+	const operator = await dislikes.includes(req.params.id) ? '$addToSet' : '$addToSet'
 
 	const user = await User
 		.findByIdAndUpdate(req.session.user[0]._id,

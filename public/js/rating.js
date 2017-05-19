@@ -7,7 +7,7 @@ function ajaxDislike(e) {
 		.post(this.action)
 		.then((res) => {
 			const disliked = this.dislike.classList.add('active')
-			console.log(disliked)
+			document.querySelector('h2').textContent = res.data.dislikes.length
 		})
 }
 
