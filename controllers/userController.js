@@ -53,6 +53,8 @@ exports.authSucces = (req, res) => {
 						console.log('new user saved succesfully!')
 					})
 				}
+
+				req.session.user = user
 				res.redirect('main')
 			})
 		}

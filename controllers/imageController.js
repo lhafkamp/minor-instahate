@@ -3,33 +3,33 @@ const Image = mongoose.model('Image')
 const User = mongoose.model('User')
 const request = require('request')
 
-exports.mainPage = async (req, res) => {
+exports.mainPage = (req, res) => {
 	const imageArray = []
 	const dislikes = []
 
 	// find all images to display on start
-	await Image.find({}, async (err, images) => {
-		await images.forEach((obj) => {
+	Image.find({}, (err, images) => {
+		images.forEach((obj) => {
 			imageArray.push(obj)
 		})
 		console.log('1. main')
-	})
 
-	// find a dislike list to see which image has been rated already
-	await User.find({ user_id: req.session.userId }, async (err, user) => {
-		await user[0].dislikes.forEach((dislike) => {
-			dislikes.push(dislike.toString())
+		// find a dislike list to see which image has been rated already
+		User.find({ user_id: req.session.userId }, (err, user) => {
+			user[0].dislikes.forEach((dislike) => {
+				dislikes.push(dislike.toString())
+			})
+			console.log('2. main')
+
+			// render page
+			res.render('main', {
+				userName: req.session.userName,
+				images: imageArray,
+				dislikes: dislikes,
+			})
+			console.log('3. main')
 		})
-		console.log('2. main')
 	})
-
-	// render page
-	await res.render('main', {
-		userName: req.session.userName,
-		images: imageArray,
-		dislikes: dislikes,
-	})
-	console.log('3. main')
 
 	// get a socket connection
 	const io = req.app.get('io')
