@@ -23,7 +23,7 @@ socket.on('newPic', (data) => {
 		axios
 			.post(this.action)
 			.then((res) => {
-				const disliked = this.dislike.classList.toggle('active')
+				const disliked = this.dislike.classList.add('active')
 				console.log(disliked)
 			})
 	}

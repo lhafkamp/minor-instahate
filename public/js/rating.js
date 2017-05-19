@@ -2,12 +2,11 @@ const axios = require('./axios')
 const dislikeForms = document.querySelectorAll('form')
 
 function ajaxDislike(e) {
-	console.log('HOI');
 	e.preventDefault()
 	axios
 		.post(this.action)
 		.then((res) => {
-			const disliked = this.dislike.classList.toggle('active')
+			const disliked = this.dislike.classList.add('active')
 			console.log(disliked)
 		})
 }

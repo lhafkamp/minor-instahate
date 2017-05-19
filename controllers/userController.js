@@ -49,7 +49,7 @@ exports.authSucces = (req, res) => {
 					});
 
 					newUser.save((err) => {
-						if (err) throw err;
+						if (err) throw err
 						console.log('new user saved succesfully!')
 					})
 				}
