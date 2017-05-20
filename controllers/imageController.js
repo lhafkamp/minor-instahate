@@ -39,8 +39,16 @@ exports.mainPage = (req, res) => {
 			console.log('socket disconnected')
 		})
 
-		socket.on('title', () => {
+		socket.on('title', async () => {
+			const rank = 'douchebag'
 			console.log('title incoming')
+			await User.findByIdAndUpdate(req.session.user,
+				{ $set: { title: rank } },
+				{ new: true }
+			)
+			console.log('title set!')
+
+			io.sockets.emit('titleUpdate', (rank))
 		})
 	})
 

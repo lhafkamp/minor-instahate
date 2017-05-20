@@ -10,6 +10,17 @@ p {
 	text-align: center;
 }
 
+.flash {
+	position: fixed;
+	background: white;
+	border-bottom: 2px solid grey;
+	top: 0;
+	width: 100vw;
+	z-index: 3000;
+	opacity: 1;
+	transition: opacity 3s;
+}
+
 .pics {
 	display: flex;
 	justify-content: center;

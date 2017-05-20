@@ -45,7 +45,8 @@ exports.authSucces = (req, res) => {
 					console.log('user NOT found, creating new user..')
 					const newUser = new User({
 						user_id: userId,
-						name: userName
+						name: userName,
+						title: 'newbie'
 					})
 
 					newUser.save((err) => {
