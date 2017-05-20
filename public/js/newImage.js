@@ -26,7 +26,6 @@ socket.on('newPic', (data) => {
 				const dislikeForms = document.querySelectorAll('form')
 				document.querySelector('h2').textContent = res.data.dislikes.length
 				const rank = Math.round(res.data.dislikes.length / dislikeForms.length * 10)
-				console.log(rank);
 				socket.emit('title', rank)
 			})
 	}
