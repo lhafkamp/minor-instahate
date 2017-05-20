@@ -186,9 +186,9 @@ process.umask = function() { return 0; };
 
 },{}],2:[function(require,module,exports){
 require('./rating')
-require('./io')
+require('./newImage')
 
-},{"./io":4,"./rating":5}],3:[function(require,module,exports){
+},{"./newImage":4,"./rating":5}],3:[function(require,module,exports){
 (function (process){
 /* axios v0.16.1 | (c) 2017 by Matt Zabriskie */
 !function(t,e){"object"==typeof exports&&"object"==typeof module?module.exports=e():"function"==typeof define&&define.amd?define([],e):"object"==typeof exports?exports.axios=e():t.axios=e()}(this,function(){return function(t){function e(n){if(r[n])return r[n].exports;var o=r[n]={exports:{},id:n,loaded:!1};return t[n].call(o.exports,o,o.exports,e),o.loaded=!0,o.exports}var r={};return e.m=t,e.c=r,e.p="",e(0)}([function(t,e,r){t.exports=r(1)},function(t,e,r){"use strict";function n(t){var e=new s(t),r=i(s.prototype.request,e);return o.extend(r,s.prototype,e),o.extend(r,e),r}var o=r(2),i=r(7),s=r(8),u=r(9),f=n(u);f.Axios=s,f.create=function(t){return n(o.merge(u,t))},f.Cancel=r(26),f.CancelToken=r(27),f.isCancel=r(23),f.all=function(t){return Promise.all(t)},f.spread=r(28),t.exports=f,t.exports.default=f},function(t,e,r){(function(e){"use strict";function n(t){return"[object Array]"===_.call(t)}function o(t){return"undefined"!=typeof e&&e.isBuffer&&e.isBuffer(t)}function i(t){return"[object ArrayBuffer]"===_.call(t)}function s(t){return"undefined"!=typeof FormData&&t instanceof FormData}function u(t){var e;return e="undefined"!=typeof ArrayBuffer&&ArrayBuffer.isView?ArrayBuffer.isView(t):t&&t.buffer&&t.buffer instanceof ArrayBuffer}function f(t){return"string"==typeof t}function a(t){return"number"==typeof t}function c(t){return"undefined"==typeof t}function h(t){return null!==t&&"object"==typeof t}function p(t){return"[object Date]"===_.call(t)}function l(t){return"[object File]"===_.call(t)}function d(t){return"[object Blob]"===_.call(t)}function g(t){return"[object Function]"===_.call(t)}function y(t){return h(t)&&g(t.pipe)}function w(t){return"undefined"!=typeof URLSearchParams&&t instanceof URLSearchParams}function v(t){return t.replace(/^\s*/,"").replace(/\s*$/,"")}function m(){return("undefined"==typeof navigator||"ReactNative"!==navigator.product)&&("undefined"!=typeof window&&"undefined"!=typeof document)}function E(t,e){if(null!==t&&"undefined"!=typeof t)if("object"==typeof t||n(t)||(t=[t]),n(t))for(var r=0,o=t.length;r<o;r++)e.call(null,t[r],r,t);else for(var i in t)Object.prototype.hasOwnProperty.call(t,i)&&e.call(null,t[i],i,t)}function A(){function t(t,r){"object"==typeof e[r]&&"object"==typeof t?e[r]=A(e[r],t):e[r]=t}for(var e={},r=0,n=arguments.length;r<n;r++)E(arguments[r],t);return e}function b(t,e,r){return E(e,function(e,n){r&&"function"==typeof e?t[n]=R(e,r):t[n]=e}),t}var R=r(7),_=Object.prototype.toString;t.exports={isArray:n,isArrayBuffer:i,isBuffer:o,isFormData:s,isArrayBufferView:u,isString:f,isNumber:a,isObject:h,isUndefined:c,isDate:p,isFile:l,isBlob:d,isFunction:g,isStream:y,isURLSearchParams:w,isStandardBrowserEnv:m,forEach:E,merge:A,extend:b,trim:v}}).call(e,r(3).Buffer)},function(t,e,r){(function(t){/*!
@@ -227,6 +227,9 @@ socket.on('newPic', (data) => {
 			.then((res) => {
 				const disliked = this.dislike.classList.add('active')
 				document.querySelector('h2').textContent = res.data.dislikes.length
+				if (res.data.dislikes.length > 1) {
+					socket.emit('title')
+				}
 			})
 	}
 
@@ -234,6 +237,7 @@ socket.on('newPic', (data) => {
 })
 
 },{"./axios":3}],5:[function(require,module,exports){
+const socket = io()
 const axios = require('./axios')
 const dislikeForms = document.querySelectorAll('form')
 
@@ -244,8 +248,29 @@ function ajaxDislike(e) {
 		.then((res) => {
 			const disliked = this.dislike.classList.add('active')
 			document.querySelector('h2').textContent = res.data.dislikes.length
+			if (res.data.dislikes.length > 1) {
+				socket.emit('title')
+			}
 		})
 }
+
+socket.on('titleUpdate', (rank) => {
+	document.body.insertAdjacentHTML('afterbegin',
+	`
+		<div class="stay">
+			<p>New rank! ${rank}</p>
+		</div>
+	`)
+
+	document.querySelector('h3').textContent = rank
+
+	setTimeout(() => {
+		document.querySelector('.stay').style.opacity = 0;
+		setTimeout(() => {
+			document.querySelector('.stay').remove()
+		}, 3000);
+	}, 3000)
+})
 
 dislikeForms.forEach(dislike => dislike.addEventListener('click', ajaxDislike))
 

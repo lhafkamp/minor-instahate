@@ -1,7 +1,8 @@
 <%- include ./part/header.ejs %>
 
-	<h1>Welcome <%= userName %></h1>
-	<h2><%= dislikes.length %></h2>
+	<h1>Name: <%= userName %></h1>
+	<h2>Dislikes: <%= dislikes.length %></h2>
+	<h3>Title: <%= title %></h3>
 
 	<div class="pics">
 		<% reverseArray = images.reverse() %>

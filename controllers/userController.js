@@ -38,24 +38,29 @@ exports.authSucces = (req, res) => {
 			req.session.userName = userName
 			req.session.token = token
 
-			User.find({ user_id: userId }, (err, user) => {
+			User.find({ user_id: userId }, async (err, user) => {
+
 				if (user.length > 0) {
 					console.log('user found, carry on')
+					redirect()
 				} else {
 					console.log('user NOT found, creating new user..')
-					const newUser = new User({
+					const newUser = await new User({
 						user_id: userId,
-						name: userName
-					});
+						name: userName,
+						title: 'newbie'
+					})
 
-					newUser.save((err) => {
+					await newUser.save((err) => {
 						if (err) throw err
 						console.log('new user saved succesfully!')
+						redirect()
 					})
 				}
 
-				req.session.user = user
-				res.redirect('main')
+				function redirect() {
+					res.redirect('main')
+				}
 			})
 		}
 	})
