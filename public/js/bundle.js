@@ -227,6 +227,9 @@ socket.on('newPic', (data) => {
 			.then((res) => {
 				const disliked = this.dislike.classList.add('active')
 				document.querySelector('h2').textContent = res.data.dislikes.length
+				if (res.data.dislikes.length > 1) {
+					socket.emit('title')
+				}
 			})
 	}
 
@@ -251,20 +254,19 @@ function ajaxDislike(e) {
 		})
 }
 
-// TODO SET KEYFRAME
 socket.on('titleUpdate', (rank) => {
 	document.body.insertAdjacentHTML('afterbegin',
 	`
-		<div class="flash">
-			<p>New rank: - ${rank} -</p>
+		<div class="stay">
+			<p>New rank! ${rank}</p>
 		</div>
 	`)
 
+
 	setTimeout(() => {
-		const flash = document.querySelector('.flash')
-		flash.style.opacity = 0;
+		document.querySelector('.stay').style.opacity = 0;
 		setTimeout(() => {
-			flash.remove()
+			document.querySelector('.stay')
 		}, 3000);
 	}, 3000)
 })
