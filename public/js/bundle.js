@@ -226,8 +226,10 @@ socket.on('newPic', (data) => {
 			.post(this.action)
 			.then((res) => {
 				const disliked = this.dislike.classList.add('active')
+				const dislikeForms = document.querySelectorAll('form')
 				document.querySelector('h2').textContent = res.data.dislikes.length
-				const rank = res.data.dislikes.length
+				const rank = Math.round(res.data.dislikes.length / dislikeForms.length * 10)
+				console.log(rank);
 				socket.emit('title', rank)
 			})
 	}
@@ -247,7 +249,7 @@ function ajaxDislike(e) {
 		.then((res) => {
 			const disliked = this.dislike.classList.add('active')
 			document.querySelector('h2').textContent = res.data.dislikes.length
-			const rank = res.data.dislikes.length
+			const rank = Math.round(res.data.dislikes.length / dislikeForms.length * 10)
 			socket.emit('title', rank)
 		})
 }

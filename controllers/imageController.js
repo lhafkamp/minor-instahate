@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Image = mongoose.model('Image')
 const User = mongoose.model('User')
 const request = require('request')
-const titles = ['not very nice', 'bad person', 'hater', 'friendless', 'terrible person', 'god of evil']
+const titles = ['newbie', 'not very nice', 'bad person', 'hater', 'friendless', 'troll', 'terrible person', 'sociopath', 'chaotic evil', 'inhuman', 'god of hate']
 
 exports.mainPage = (req, res) => {
 	const imageArray = []
@@ -44,16 +44,24 @@ exports.mainPage = (req, res) => {
 		})
 
 		socket.on('title', (rank) => {
-			console.log('title incoming')
+			let oldRank
+			const newRank = titles[rank]
+
+			function newTitle() {
+				if (newRank === oldRank) {
+					console.log('same rank!')
+				} else {
+					console.log('new title!')
+					io.sockets.emit('titleUpdate', (titles[rank]))
+				}
+			}
 
 			User.findOneAndUpdate({ name: req.session.user[0].name }, 
-				{ title: titles[rank] }, { new: true }, (err, update) => {
+				{ title: titles[rank] }, { upsert: true }, async (err, user) => {
 				if (err) throw err
+				oldRank = user.title
+				newTitle()
 			})
-
-			console.log('title set!')
-
-			io.sockets.emit('titleUpdate', (titles[rank]))
 		})
 	})
 
