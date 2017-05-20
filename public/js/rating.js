@@ -9,9 +9,8 @@ function ajaxDislike(e) {
 		.then((res) => {
 			const disliked = this.dislike.classList.add('active')
 			document.querySelector('h2').textContent = res.data.dislikes.length
-			if (res.data.dislikes.length > 1) {
-				socket.emit('title')
-			}
+			const rank = Math.round(res.data.dislikes.length / dislikeForms.length * 10)
+			socket.emit('title', rank)
 		})
 }
 
