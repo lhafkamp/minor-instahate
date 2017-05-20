@@ -227,9 +227,8 @@ socket.on('newPic', (data) => {
 			.then((res) => {
 				const disliked = this.dislike.classList.add('active')
 				document.querySelector('h2').textContent = res.data.dislikes.length
-				if (res.data.dislikes.length > 1) {
-					socket.emit('title')
-				}
+				const rank = res.data.dislikes.length
+				socket.emit('title', rank)
 			})
 	}
 
@@ -248,9 +247,8 @@ function ajaxDislike(e) {
 		.then((res) => {
 			const disliked = this.dislike.classList.add('active')
 			document.querySelector('h2').textContent = res.data.dislikes.length
-			if (res.data.dislikes.length > 1) {
-				socket.emit('title')
-			}
+			const rank = res.data.dislikes.length
+			socket.emit('title', rank)
 		})
 }
 

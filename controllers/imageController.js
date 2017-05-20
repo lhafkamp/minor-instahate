@@ -43,18 +43,17 @@ exports.mainPage = (req, res) => {
 			console.log('socket disconnected')
 		})
 
-		socket.on('title', () => {
-			const rank = 'douchebag'
+		socket.on('title', (rank) => {
 			console.log('title incoming')
 
 			User.findOneAndUpdate({ name: req.session.user[0].name }, 
-				{ title: rank }, { new: true}, (err, update) => {
+				{ title: titles[rank] }, { new: true }, (err, update) => {
 				if (err) throw err
 			})
 
 			console.log('title set!')
 
-			io.sockets.emit('titleUpdate', (rank))
+			io.sockets.emit('titleUpdate', (titles[rank]))
 		})
 	})
 
