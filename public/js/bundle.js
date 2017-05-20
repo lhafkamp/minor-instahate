@@ -267,7 +267,7 @@ socket.on('titleUpdate', (rank) => {
 	setTimeout(() => {
 		document.querySelector('.stay').style.opacity = 0;
 		setTimeout(() => {
-			document.querySelector('.stay')
+			document.querySelector('.stay').remove()
 		}, 3000);
 	}, 3000)
 })
