@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Image = mongoose.model('Image')
 const User = mongoose.model('User')
 const request = require('request')
+const titles = ['not very nice', 'bad person', 'hater', 'friendless', 'terrible person', 'god of evil']
 
 exports.mainPage = (req, res) => {
 	const imageArray = []
@@ -16,6 +17,8 @@ exports.mainPage = (req, res) => {
 
 		// find a dislike list to see which image has been rated already
 		User.find({ user_id: req.session.userId }, (err, user) => {
+			req.session.user = user
+
 			user[0].dislikes.forEach((dislike) => {
 				dislikes.push(dislike.toString())
 			})
@@ -24,8 +27,9 @@ exports.mainPage = (req, res) => {
 			// render page
 			res.render('main', {
 				userName: req.session.userName,
+				title: user[0].title,
 				images: imageArray,
-				dislikes: dislikes,
+				dislikes: dislikes
 			})
 			console.log('3. main')
 		})
@@ -39,13 +43,15 @@ exports.mainPage = (req, res) => {
 			console.log('socket disconnected')
 		})
 
-		socket.on('title', async () => {
+		socket.on('title', () => {
 			const rank = 'douchebag'
 			console.log('title incoming')
-			await User.findByIdAndUpdate(req.session.user,
-				{ $set: { title: rank } },
-				{ new: true }
-			)
+
+			User.findOneAndUpdate({ name: req.session.user[0].name }, 
+				{ title: rank }, { new: true}, (err, update) => {
+				if (err) throw err
+			})
+
 			console.log('title set!')
 
 			io.sockets.emit('titleUpdate', (rank))

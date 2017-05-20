@@ -23,6 +23,7 @@ socket.on('titleUpdate', (rank) => {
 		</div>
 	`)
 
+	document.querySelector('h3').textContent = rank
 
 	setTimeout(() => {
 		document.querySelector('.stay').style.opacity = 0;
