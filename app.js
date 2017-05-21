@@ -45,9 +45,9 @@ const http = require('http').Server(app)
 const io = require('socket.io')(http)
 app.set('io', io)
 
-const connections = [];
+const connections = []
 
-io.on('connection', socket => {
+io.on('connection', (socket) => {
 	global.socket = socket
 
 	connections.push(socket)

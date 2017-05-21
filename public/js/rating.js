@@ -7,31 +7,22 @@ function ajaxDislike(e) {
 	axios
 		.post(this.action)
 		.then((res) => {
-			console.log(res);
 			const disliked = this.dislike.classList.add('active')
 			document.querySelector('h2').textContent = res.data.dislikes.length
 			document.querySelector('h3').textContent = res.data.title
-			// const rank = Math.round(res.data.dislikes.length / dislikeForms.length * 10)
-			// socket.emit('title', rank)
+			document.body.insertAdjacentHTML('afterbegin', `
+				<div class="stay">
+					<p>New rank! ${res.data.title}</p>
+				</div>
+			`)
+
+			setTimeout(() => {
+				document.querySelector('.stay').style.opacity = 0
+				setTimeout(() => {
+					document.querySelector('.stay').remove()
+				}, 3000)
+			}, 3000)
 		})
 }
-
-// socket.on('titleUpdate', (rank) => {
-// 	document.body.insertAdjacentHTML('afterbegin',
-// 	`
-// 		<div class="stay">
-// 			<p>New rank! ${rank}</p>
-// 		</div>
-// 	`)
-
-// 	document.querySelector('h3').textContent = rank
-
-// 	setTimeout(() => {
-// 		document.querySelector('.stay').style.opacity = 0;
-// 		setTimeout(() => {
-// 			document.querySelector('.stay').remove()
-// 		}, 3000);
-// 	}, 3000)
-// })
 
 dislikeForms.forEach(dislike => dislike.addEventListener('click', ajaxDislike))

@@ -2,14 +2,15 @@ const mongoose = require('mongoose')
 const Image = mongoose.model('Image')
 const User = mongoose.model('User')
 const request = require('request')
-const titles = ['newbie', 'not very nice', 'bad person', 'hater', 'friendless', 'troll', 'terrible person', 'sociopath', 'chaotic evil', 'inhuman', 'god of hate']
 
 exports.mainPage = (req, res) => {
+	const io = req.app.get('io')
 	const imageArray = []
 	const dislikes = []
 
-	// find all images to display on start
+	// find all images to display on start and save them in a global variable for titles later
 	Image.find({}, (err, images) => {
+		global.imageCount = images.length
 		images.forEach((obj) => {
 			imageArray.push(obj)
 		})
@@ -34,33 +35,6 @@ exports.mainPage = (req, res) => {
 			console.log('3. main')
 		})
 	})
-
-	// get a socket connection
-	// const io = req.app.get('io')
-	// io.on('connection', (socket) => {
-	// 	socket.on('title', (rank) => {
-	// 		let oldRank
-	// 		const newRank = titles[rank]
-
-	// 		function newTitle() {
-	// 			if (newRank === oldRank) {
-	// 				console.log('same rank!')
-	// 			} else {
-	// 				console.log('new title!')
-	// 				socket.emit('titleUpdate', (titles[rank]))
-	// 			}
-	// 		}
-
-	// 		console.log(req.session.userName)
-
-	// 		User.findOneAndUpdate({ name: req.session.user[0].name }, 
-	// 			{ title: titles[rank] }, { upsert: true }, (err, user) => {
-	// 			if (err) throw err
-	// 			oldRank = user.title
-	// 			newTitle()
-	// 		})
-	// 	})
-	// })
 
 	setInterval(() => {
 		request(`https://api.instagram.com/v1/users/${req.session.userId}/media/recent/?access_token=${req.session.token}`, (err, response, body) => {
