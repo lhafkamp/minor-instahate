@@ -36,34 +36,31 @@ exports.mainPage = (req, res) => {
 	})
 
 	// get a socket connection
-	const io = req.app.get('io')
-	io.on('connection', (socket) => {
-		console.log('socket connected!')
-		socket.on('disconnect', () => {
-			console.log('socket disconnected')
-		})
+	// const io = req.app.get('io')
+	// io.on('connection', (socket) => {
+	// 	socket.on('title', (rank) => {
+	// 		let oldRank
+	// 		const newRank = titles[rank]
 
-		socket.on('title', (rank) => {
-			let oldRank
-			const newRank = titles[rank]
+	// 		function newTitle() {
+	// 			if (newRank === oldRank) {
+	// 				console.log('same rank!')
+	// 			} else {
+	// 				console.log('new title!')
+	// 				socket.emit('titleUpdate', (titles[rank]))
+	// 			}
+	// 		}
 
-			function newTitle() {
-				if (newRank === oldRank) {
-					console.log('same rank!')
-				} else {
-					console.log('new title!')
-					io.sockets.emit('titleUpdate', (titles[rank]))
-				}
-			}
+	// 		console.log(req.session.userName)
 
-			User.findOneAndUpdate({ name: req.session.user[0].name }, 
-				{ title: titles[rank] }, { upsert: true }, async (err, user) => {
-				if (err) throw err
-				oldRank = user.title
-				newTitle()
-			})
-		})
-	})
+	// 		User.findOneAndUpdate({ name: req.session.user[0].name }, 
+	// 			{ title: titles[rank] }, { upsert: true }, (err, user) => {
+	// 			if (err) throw err
+	// 			oldRank = user.title
+	// 			newTitle()
+	// 		})
+	// 	})
+	// })
 
 	setInterval(() => {
 		request(`https://api.instagram.com/v1/users/${req.session.userId}/media/recent/?access_token=${req.session.token}`, (err, response, body) => {

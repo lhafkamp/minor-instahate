@@ -14,11 +14,6 @@ const routes = require('./routes/index')
 // set up express
 const app = express()
 
-// io setup
-const http = require('http').Server(app)
-const io = require('socket.io')(http)
-app.set('io', io)
-
 // get the public files
 app.use(express.static(path.join(__dirname, 'public')))
 
@@ -44,6 +39,25 @@ app.use(session({
 	resave: false,
 	saveUninitialized: false,
 }))
+
+// socketio setup
+const http = require('http').Server(app)
+const io = require('socket.io')(http)
+app.set('io', io)
+
+const connections = [];
+
+io.on('connection', socket => {
+	global.socket = socket
+
+	connections.push(socket)
+	console.log('Connected: %s sockets', connections.length)
+
+	socket.on('disconnect', () => {
+		connections.splice(connections.indexOf(socket), 1)
+		console.log('Disconnected: %s sockets connected', connections.length)
+	})
+})
 
 // handle routes
 app.use('/', routes)
