@@ -206,10 +206,6 @@ const socket = io()
 const axios = require('./axios')
 const addNewPic = document.querySelector('.pics')
 
-socket.on('disconnect', () => {
-	alert('server is offline!')
-})
-
 socket.on('newPic', (data) => {
 	addNewPic.insertAdjacentHTML('afterbegin', `
 		<div class="pic">
@@ -264,7 +260,7 @@ const axios = require('./axios')
 const dislikeForms = document.querySelectorAll('form')
 
 socket.on('disconnect', () => {
-	alert('server is offline! Your input won\t work anymore, please try to login again later')
+	alert('server is offline! Your input will not work anymore, please try to login again later')
 })
 
 function ajaxDislike(e) {
@@ -272,7 +268,7 @@ function ajaxDislike(e) {
 	axios
 		.post(this.action)
 		.then((res) => {
-			const disliked = this.dislike.classList.add('active')
+			const disliked = this.dislike.querySelector('img').classList.add('active')
 			const titleEle = document.querySelector('h3').textContent
 			document.querySelector('h2').textContent = res.data.dislikes.length
 

@@ -1,72 +1,94 @@
 body {
-	margin: 0;
-	padding: 0;
-	font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background: #fafafa;
 }
 
 h1,
 h2,
 h3,
 p {
-	text-align: center;
+  text-align: center;
 }
 
 .stay {
-	position: fixed;
-	background: white;
-	border-bottom: 2px solid grey;
-	top: 0;
-	width: 100vw;
-	z-index: 3000;
-	opacity: 1;
-	transition: opacity 3s;
+  position: fixed;
+  background: white;
+  border-bottom: 2px solid grey;
+  top: 0;
+  width: 100vw;
+  z-index: 3000;
+  opacity: 1;
+  transition: opacity 3s;
 }
 
 .pics {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .pic {
-	display: flex;
-	flex-direction: column;
-	margin: .5em;
+  display: flex;
+  flex-direction: column;
+  margin: .5em;
+  border: 1px solid #e6e6e6;
+  background: white;
+  padding: 1em;
 }
 
-.pic img {
-	filter: brightness(100%);
-	transition: 2s filter;
-	z-index: 200;
+.pic .instagram {
+  z-index: 200;
+  height: 10em;
+}
+
+.pic form {
+  display: flex;
+}
+
+.pic button:focus {
+  outline: 0;
+}
+
+.pic .fy {
+  height: 1.3em;
+  border: 1px solid #e6e6e6;
+  padding: .8em;
+  border-radius: 50%;
+  margin-top: .8em;
+}
+
+.pic .fy:hover {
+  border: 1px solid pink;
+  cursor: pointer;
 }
 
 .pic div {
-	display: flex;
+  display: flex;
 }
 
 .pic button {
-	cursor: pointer;
-	height: 4em;
-	flex-grow: 1;
-	border: none;
-	margin: 0;
-	padding: 0;
-	color: white;
-	font-size: 1em;
+  height: 4em;
+  flex-grow: 1;
+  border: none;
+  margin: 0;
+  padding: 0;
+  background: white;
+  color: white;
+  font-size: 1em;
 }
 
 .active {
-	background: red;
-	color: red;
-	opacity: .3;
-	font-size: 3em;
+  background: pink;
+  border: 0px solid pink;
 }
 
 /* offline.js css */
 
 .offline-ui-up {
-	display: none;
+  display: none;
 }
 
 .offline-ui-down,

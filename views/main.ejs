@@ -11,10 +11,10 @@
 		
 			<div class="pic">
 				<div>
-					<img src="<%= image.image %>"/>
+					<img class="instagram" src="<%= image.image %>"/>
 				</div>
 				<form method="POST" action="/main/<%= image._id %>/rating">
-					<button type="submit" name="dislike" class="dislike <%= ratingClass %>">Dislike</button>
+					<button type="submit" name="dislike" class="dislike"><img class="<%= ratingClass %> fy" src="images/fy.svg"/></button>
 				</form>
 			</div>
 		

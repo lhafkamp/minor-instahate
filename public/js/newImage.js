@@ -2,10 +2,6 @@ const socket = io()
 const axios = require('./axios')
 const addNewPic = document.querySelector('.pics')
 
-socket.on('disconnect', () => {
-	alert('server is offline!')
-})
-
 socket.on('newPic', (data) => {
 	addNewPic.insertAdjacentHTML('afterbegin', `
 		<div class="pic">
