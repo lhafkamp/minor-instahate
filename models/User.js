@@ -11,7 +11,8 @@ const userSchema = new Schema({
 			type: mongoose.Schema.ObjectId,
 			ref: 'Image',
 		}
-	]
+	],
+	img: String
 })
 
 module.exports = mongoose.model('User', userSchema)

@@ -49,13 +49,9 @@ const connections = []
 
 io.on('connection', (socket) => {
 	global.socket = socket
-
 	connections.push(socket)
-	console.log('Connected: %s sockets', connections.length)
-
 	socket.on('disconnect', () => {
 		connections.splice(connections.indexOf(socket), 1)
-		console.log('Disconnected: %s sockets', connections.length)
 	})
 })
 

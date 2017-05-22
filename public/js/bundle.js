@@ -206,18 +206,14 @@ const socket = io()
 const axios = require('./axios')
 const addNewPic = document.querySelector('.pics')
 
-socket.on('disconnect', () => {
-	alert('server is offline!')
-})
-
 socket.on('newPic', (data) => {
 	addNewPic.insertAdjacentHTML('afterbegin', `
 		<div class="pic">
 			<div>
-				<img src="${data.img.image}"/>
+				<img class="instagram" src="${data.img.image}"/>
 			</div>
 			<form method="POST" action="/main/${data.img._id}/rating">
-				<button type="submit" name="dislike" class="dislike">Dislike</button>
+				<button type="submit" name="dislike" class="<%= ratingClass %>">Terrible</button>
 			</form>
 		</div>
 	`)
@@ -229,6 +225,7 @@ socket.on('newPic', (data) => {
 		axios
 			.post(this.action)
 			.then((res) => {
+				console.log(this.dislike);
 				const disliked = this.dislike.classList.add('active')
 				const titleEle = document.querySelector('h3').textContent
 				document.querySelector('h2').textContent = res.data.dislikes.length
@@ -238,10 +235,11 @@ socket.on('newPic', (data) => {
 
 					document.body.insertAdjacentHTML('afterbegin', `
 						<div class="stay">
-							<p>New rank! ${res.data.title}</p>
+							<p>New title unlocked: <span>${res.data.title}</span></p>
 						</div>
 					`)
 
+					// TODO keyframe instead of this
 					setTimeout(() => {
 						document.querySelector('.stay').style.opacity = 0
 						setTimeout(() => {
@@ -264,7 +262,7 @@ const axios = require('./axios')
 const dislikeForms = document.querySelectorAll('form')
 
 socket.on('disconnect', () => {
-	alert('server is offline! Your input won\t work anymore, please try to login again later')
+	alert('server is offline! Your input will not work anymore, please try to login again later')
 })
 
 function ajaxDislike(e) {
@@ -272,6 +270,7 @@ function ajaxDislike(e) {
 	axios
 		.post(this.action)
 		.then((res) => {
+			console.log(this.dislike);
 			const disliked = this.dislike.classList.add('active')
 			const titleEle = document.querySelector('h3').textContent
 			document.querySelector('h2').textContent = res.data.dislikes.length
@@ -281,10 +280,11 @@ function ajaxDislike(e) {
 
 				document.body.insertAdjacentHTML('afterbegin', `
 					<div class="stay">
-						<p>New rank! ${res.data.title}</p>
+						<p>New title unlocked: <span>${res.data.title}</span></p>
 					</div>
 				`)
 
+				// TODO keyframe instead of this
 				setTimeout(() => {
 					document.querySelector('.stay').style.opacity = 0
 					setTimeout(() => {

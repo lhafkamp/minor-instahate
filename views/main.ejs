@@ -1,8 +1,11 @@
 <%- include ./part/header.ejs %>
 
-	<h1>Name: <%= userName %></h1>
-	<h2>Dislikes: <%= dislikes.length %></h2>
-	<h3><%= title %></h3>
+	<header>
+		<img src="<%= profilePic %>"/>
+		<h1><%= userName %></h1>
+		<span>Dislikes:</span><h2><%= dislikes.length %></h2>
+		<span>Title:</span><h3><%= title %></h3>
+	</header>
 
 	<div class="pics">
 		<% reverseArray = images.reverse() %>
@@ -11,10 +14,10 @@
 		
 			<div class="pic">
 				<div>
-					<img src="<%= image.image %>"/>
+					<img class="instagram" src="<%= image.image %>"/>
 				</div>
 				<form method="POST" action="/main/<%= image._id %>/rating">
-					<button type="submit" name="dislike" class="dislike <%= ratingClass %>">Dislike</button>
+					<button type="submit" name="dislike" class="<%= ratingClass %>">Terrible</button>
 				</form>
 			</div>
 		
