@@ -2,6 +2,10 @@ const socket = io()
 const axios = require('./axios')
 const dislikeForms = document.querySelectorAll('form')
 
+socket.on('disconnect', () => {
+	alert('server is offline! Your input won\t work anymore, please try to login again later')
+})
+
 function ajaxDislike(e) {
 	e.preventDefault()
 	axios

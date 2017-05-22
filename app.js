@@ -55,7 +55,7 @@ io.on('connection', (socket) => {
 
 	socket.on('disconnect', () => {
 		connections.splice(connections.indexOf(socket), 1)
-		console.log('Disconnected: %s sockets connected', connections.length)
+		console.log('Disconnected: %s sockets', connections.length)
 	})
 })
 
@@ -63,6 +63,6 @@ io.on('connection', (socket) => {
 app.use('/', routes)
 
 // run the app
-http.listen(process.env.PORT || 4000, () => {
-	console.log('listening on', http.address().port)
+http.listen(4000, () =>{
+  console.log('listening on', http.address().port)
 })

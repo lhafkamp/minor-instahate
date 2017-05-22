@@ -14,7 +14,6 @@ exports.rating = async (req, res) => {
 	)
 
 	let oldRank = user.title
-	console.log('oldRank: ', oldRank)
 
 	// get a percentage for the title
 	const rank = Math.round(user.dislikes.length / imageCount * 10)
@@ -28,7 +27,6 @@ exports.rating = async (req, res) => {
 			if (err) throw err
 
 			let newRank = title.title
-			console.log('newRank: ', newRank)
 			if (newRank === oldRank) {
 				res.json(user)
 				console.log('same rank')
