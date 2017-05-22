@@ -63,6 +63,6 @@ io.on('connection', (socket) => {
 app.use('/', routes)
 
 // run the app
-http.listen(4000, () => {
-	console.log('running on', `http://localhost:${http.address().port}`)
-})
+http.listen(process.env.PORT || 4000, () =>{
+	console.log('listening on', http.address().port)
+});
