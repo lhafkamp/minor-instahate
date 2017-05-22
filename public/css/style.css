@@ -5,11 +5,80 @@ body {
   background: #fafafa;
 }
 
-h1,
-h2,
-h3,
+#login {
+  display: flex;
+  height: 80vh;
+  justify-content: center;
+  align-items: center;
+}
+
+#login div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#login img {
+  height: 4em;
+  margin-bottom: 1em;
+}
+
+#login a {
+  padding: 1em;
+  border: 1px solid #B83962;
+  background: white;
+  color: #B83962;
+  text-decoration: none;
+}
+
+#login a:hover {
+  color: white;
+  background: #B83962;
+  transition: .3s background;
+}
+
 p {
   text-align: center;
+}
+
+h1,
+h2,
+h3 {
+  font-size: .9em;
+  font-weight: 100;
+}
+
+span {
+  font-size: .9em;
+}
+
+h1 {
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+h2,
+h3 {
+  padding-right: 1em;
+  padding-left: .2em;
+  color: #B83962;
+}
+
+header img {
+  height: 2em;
+  border-radius: 50%;
+  margin-left: 2em;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  background: white;
+  width: 100vw;
+  position: fixed;
+  z-index: 2800;
+  border-bottom: 1px solid black;
 }
 
 .stay {
@@ -19,8 +88,20 @@ p {
   top: 0;
   width: 100vw;
   z-index: 3000;
+  padding: .8em;
   opacity: 1;
   transition: opacity 3s;
+}
+
+.stay p {
+  margin: 0;
+  font-weight: 100;
+  font-size: 1em;
+}
+
+.stay span {
+  color: #B83962;
+  font-size: 1em;
 }
 
 .pics {
@@ -28,6 +109,8 @@ p {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  padding-top: 4em;
+  padding-bottom: 4em;
 }
 
 .pic {
@@ -41,7 +124,7 @@ p {
 
 .pic .instagram {
   z-index: 200;
-  height: 10em;
+  height: 14em;
 }
 
 .pic form {
@@ -60,8 +143,8 @@ p {
   margin-top: .8em;
 }
 
-.pic .fy:hover {
-  border: 1px solid pink;
+.pic button:hover {
+  border: 1px solid #B83962;
   cursor: pointer;
 }
 
@@ -73,16 +156,20 @@ p {
   height: 4em;
   flex-grow: 1;
   border: none;
-  margin: 0;
+  margin-top: 1em;
   padding: 0;
   background: white;
-  color: white;
-  font-size: 1em;
+  color: grey;
+  border: 1px solid #e6e6e6;
+  transition: .3s background;
+  transition: .3s border;
 }
 
 .active {
-  background: pink;
-  border: 0px solid pink;
+  background: #B83962 !important;
+  border: 1px solid #B83962 !important;
+  color: white !important;
+  cursor: auto !important;
 }
 
 /* offline.js css */
