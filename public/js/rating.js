@@ -8,20 +8,25 @@ function ajaxDislike(e) {
 		.post(this.action)
 		.then((res) => {
 			const disliked = this.dislike.classList.add('active')
+			const titleEle = document.querySelector('h3').textContent
 			document.querySelector('h2').textContent = res.data.dislikes.length
-			document.querySelector('h3').textContent = res.data.title
-			document.body.insertAdjacentHTML('afterbegin', `
-				<div class="stay">
-					<p>New rank! ${res.data.title}</p>
-				</div>
-			`)
 
-			setTimeout(() => {
-				document.querySelector('.stay').style.opacity = 0
+			if (titleEle != res.data.title) {
+				document.querySelector('h3').textContent = res.data.title
+
+				document.body.insertAdjacentHTML('afterbegin', `
+					<div class="stay">
+						<p>New rank! ${res.data.title}</p>
+					</div>
+				`)
+
 				setTimeout(() => {
-					document.querySelector('.stay').remove()
+					document.querySelector('.stay').style.opacity = 0
+					setTimeout(() => {
+						document.querySelector('.stay').remove()
+					}, 3000)
 				}, 3000)
-			}, 3000)
+			}
 		})
 }
 

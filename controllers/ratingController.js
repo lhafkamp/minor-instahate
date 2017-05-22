@@ -5,18 +5,16 @@ const titles = ['newbie', 'not very nice', 'bad person', 'hater', 'friendless', 
 
 exports.rating = async (req, res) => {
 	const dislikes = await req.session.user[0].dislikes.map(obj => obj.toString())
-	const operator = await dislikes.includes(req.params.id) ? '$addToSet' : '$addToSet'
 
 	// update the dislikes with the current clicked one
 	const user = await User
 		.findByIdAndUpdate(req.session.user[0]._id,
-		{ [operator]: { dislikes: req.params.id } },
+		{ '$addToSet': { dislikes: req.params.id } },
 		{ new: true }
 	)
 
-	// TODOOOO
-	// oldRank = user.title
-	// newRank = title.title
+	let oldRank = user.title
+	console.log('oldRank: ', oldRank)
 
 	// get a percentage for the title
 	const rank = Math.round(user.dislikes.length / imageCount * 10)
@@ -25,16 +23,19 @@ exports.rating = async (req, res) => {
 	titleUpdate()
 
 	async function titleUpdate() {
-		if (user.dislikes.length > 1) {
-			const newTitle = await User.findOneAndUpdate({ name: req.session.user[0].name }, 
-				{ title: titles[rank] }, { new: true }, (err, title) => {
-				if (err) throw err
+		const newTitle = await User.findOneAndUpdate({ name: req.session.user[0].name }, 
+			{ title: titles[rank] }, { new: true }, (err, title) => {
+			if (err) throw err
 
+			let newRank = title.title
+			console.log('newRank: ', newRank)
+			if (newRank === oldRank) {
+				res.json(user)
+				console.log('same rank')
+			} else {
 				res.json(title)
 				console.log('title updated!')
-			})
-		} else {
-			res.json(user)
-		}
+			}
+		})
 	}
 }
