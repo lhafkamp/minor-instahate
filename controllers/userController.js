@@ -33,6 +33,7 @@ exports.authSucces = (req, res) => {
 			const userId = data.user.id
 			const userName = data.user.full_name
 			const token = data.access_token
+			const profilePic = data.user.profile_picture
 
 			req.session.userId = userId
 			req.session.userName = userName
@@ -48,7 +49,8 @@ exports.authSucces = (req, res) => {
 					const newUser = await new User({
 						user_id: userId,
 						name: userName,
-						title: 'newbie'
+						title: 'newbie',
+						img: profilePic
 					})
 
 					await newUser.save((err) => {

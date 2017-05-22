@@ -14,7 +14,6 @@ exports.mainPage = (req, res) => {
 		images.forEach((obj) => {
 			imageArray.push(obj)
 		})
-		console.log('1. main')
 
 		// find a dislike list to see which image has been rated already
 		User.find({ user_id: req.session.userId }, (err, user) => {
@@ -23,16 +22,15 @@ exports.mainPage = (req, res) => {
 			user[0].dislikes.forEach((dislike) => {
 				dislikes.push(dislike.toString())
 			})
-			console.log('2. main')
 
 			// render page
 			res.render('main', {
 				userName: req.session.userName,
 				title: user[0].title,
 				images: imageArray,
-				dislikes: dislikes
+				dislikes: dislikes,
+				profilePic: user[0].img
 			})
-			console.log('3. main')
 		})
 	})
 

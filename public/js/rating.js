@@ -11,7 +11,8 @@ function ajaxDislike(e) {
 	axios
 		.post(this.action)
 		.then((res) => {
-			const disliked = this.dislike.querySelector('img').classList.add('active')
+			console.log(this.dislike);
+			const disliked = this.dislike.classList.add('active')
 			const titleEle = document.querySelector('h3').textContent
 			document.querySelector('h2').textContent = res.data.dislikes.length
 
@@ -20,10 +21,11 @@ function ajaxDislike(e) {
 
 				document.body.insertAdjacentHTML('afterbegin', `
 					<div class="stay">
-						<p>New rank! ${res.data.title}</p>
+						<p>New title unlocked: <span>${res.data.title}</span></p>
 					</div>
 				`)
 
+				// TODO keyframe instead of this
 				setTimeout(() => {
 					document.querySelector('.stay').style.opacity = 0
 					setTimeout(() => {
