@@ -62,9 +62,9 @@ To start the server.
 ## Structure (MVC)
 For this app I decided to use the _model-view-controller_ design pattern. This pattern structures the app in three units that each have their own responsibility.
 
-Model: the database model  
-View: everything the user will see  
-Controller: the logic between the model and the view  
+_Model:_ the database model  
+_View:_ everything the user will see  
+_Controller:_ the logic between the model and the view  
 
 Examples:
 
