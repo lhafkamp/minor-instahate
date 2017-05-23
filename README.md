@@ -44,7 +44,7 @@ You can receive theses variables by making a new "Sandbox" on the Instagram deve
 Now you only have to make sure to pass in your <a href="https://www.mongodb.com/">MongoDB</a> database. Simply place your database link inside the mongoose.connect braces:
 
 ```javascript
-mongoose.connect({your link here});
+mongoose.connect({your link here})
 ```  
 
 Finally, to use the app you need to run the following commands:  
@@ -58,30 +58,90 @@ npm start
 ```  
 
 To start the server.
+
+## Structure (MVC)
+For this app I decided to use the _model-view-controller_ design pattern. This pattern structures the app in three units that each have their own responsibility.
+
+Model: the database model  
+View: everything the user will see  
+Controller: the logic between the model and the view  
+
+Examples:
+
+__Model__
+In the directory: ./models  
+- User.js
+
+```javascript
+const userSchema = new Schema({
+	user_id: String,
+	name: String,
+	title: String,
+	dislikes: [
+		{
+			type: mongoose.Schema.ObjectId,
+			ref: 'Image',
+		}
+	],
+	img: String
+})
+```
+
+__View__
+In the directory: ./views  
+- index.ejs
+
+```javascript
+<div id="login">
+	<div>
+		<img src="images/insta.svg"/>
+		<a href="<%- auth_url %>">Log in using Instagram</a>
+	</div>
+</div>
+```
+__Controller__
+In the directory: ./controllers  
+- userController.js
+```javascript
+exports.homePage = (req, res) => {
+	const auth_url = `https://api.instagram.com/oauth/authorize/?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=basic+public_content`
+	res.render('index', {
+		auth_url
+	})
+}
+```  
+
+And then in ./routes  
+- index.js
+```javascript
+router.get('/', userController.homePage)
+```
+
+
   
 ## Using MongoDB & Mongoose
 To make sure data is stored I decided to use <a href="https://www.mongodb.com/">MongoDB</a> as my database because the documents are saved as JSON. To use this in Node.js I used the <a href="http://mongoosejs.com/">Mongoose</a> package. This package provides a more straight-forward OOP way of using MongoDB.  
   
 Here is how I set up my user schema:  
 ```javascript
-mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASS}@ds131041.mlab.com:31041/instabase`);
+mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASS}@ds131041.mlab.com:31041/instabase`)
 ```
 To connect to my database.
 
 ```javascript
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
 ```
 
 ```javascript
 const userSchema = new Schema({
 	user_id: String,
 	name: String
-});
+})
 ```
 The schema maps to the MongoDB collection and defines the shape of the documents within that collection.
 
 ```javascript
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema)
 ```
 
 Create an instance of that model for easier use.  
@@ -90,12 +150,12 @@ Create an instance of that model for easier use.
 const newUser = new User({
 	user_id: '2309482309',
 	name: 'Luuk'
-});
+})
 
 newUser.save((err) => {
-	if (err) throw err;
-	console.log('new user saved succesfully!');
-});
+	if (err) throw err
+	console.log('new user saved succesfully!')
+})
 ```
 Create a new user with an id and a name and save it to the database.
 
@@ -106,16 +166,14 @@ In order to use the <a href="https://www.instagram.com/developer/">Instagram API
 
 Once you start up the app I make a link with the following URL:  
 ```javascript
-const auth_url = `https://api.instagram.com/oauth/authorize/?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&scope=${scope}`;
+const auth_url = `https://api.instagram.com/oauth/authorize/?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&scope=${scope}`
 ```
 
 This URL needs the following variables to redirect properly:
 ```javascript
-const client_id = process.env.CLIENT_ID;
-const client_secret = process.env.CLIENT_SECRET;
-const redirect_uri = process.env.REDIRECT_URI;
-const response_type = 'code';
-const scope = 'basic+public_content';
+const client_id = process.env.CLIENT_ID
+const client_secret = process.env.CLIENT_SECRET
+const redirect_uri = process.env.REDIRECT_URI
 ```
 
 Once you accept to the terms I use a POST request:
@@ -131,7 +189,7 @@ request.post({
 		code: req.query.code
 	}
 }, (err, response, body) => {
-	data = JSON.parse(body);
+	data = JSON.parse(body)
 }
 ```  
 
@@ -189,7 +247,7 @@ socket.on('newPic', (data) => {
 			</form>
 		</div>
 	`)
-});
+})
 ```
 The client receives the image data from the socket and uses it create a new element (the new picture) on the page.  
 
@@ -211,18 +269,18 @@ In order to use 'require' client side I used <a href="http://browserify.org/">Br
 For example, in a random.js file you can use:  
 
 ```javascript
-const random = 'wow this is random';
-module.exports = random;
+const random = 'wow this is random'
+module.exports = random
 ```
 
 And in the app.js file you require the exported file:
 
 ```js  
-require('./random');  
+require('./random')
 ```
   
 ```js 
-console.log(random);
+console.log(random)
 ``` 
 Here you can use the const made in the random.js file.
   
