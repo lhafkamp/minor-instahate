@@ -9,7 +9,7 @@
 ## Instahate
 With this webapp you can rate pictures of everyone who uses Instahate.. in a bad way! Once you log in your latest photo gets imported real-time. Judge people by their photo's and gain new ranks of scumbaggery. This is obviously a satirical version of Instagram.
 
-<img width="50%" src="media/title.jpg" alt="demo">
+<img width="75%" src="media/title.jpg" alt="demo">
 
 ## Live version
 <a href="https://secure-plains-50292.herokuapp.com/">Live demo here</a>
