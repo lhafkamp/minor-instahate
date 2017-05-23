@@ -45,16 +45,6 @@ const http = require('http').Server(app)
 const io = require('socket.io')(http)
 app.set('io', io)
 
-const connections = []
-
-io.on('connection', (socket) => {
-	global.socket = socket
-	connections.push(socket)
-	socket.on('disconnect', () => {
-		connections.splice(connections.indexOf(socket), 1)
-	})
-})
-
 // handle routes
 app.use('/', routes)
 
