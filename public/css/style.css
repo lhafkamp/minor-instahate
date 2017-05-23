@@ -79,6 +79,7 @@ header {
   position: fixed;
   z-index: 2800;
   border-bottom: 1px solid black;
+  padding: .2em;
 }
 
 .stay {
