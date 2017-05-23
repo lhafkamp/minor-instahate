@@ -49,6 +49,6 @@ app.set('io', io)
 app.use('/', routes)
 
 // run the app
-http.listen(4000, () => {
+http.listen(process.env.PORT || 4000, () => {
 	console.log('listening on', http.address().port)
 })
