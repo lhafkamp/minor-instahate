@@ -68,7 +68,7 @@ Controller: the logic between the model and the view
 
 Examples:
 
-__Model__
+__Model__:  
 In the directory: ./models  
 - User.js
 
@@ -87,7 +87,7 @@ const userSchema = new Schema({
 })
 ```
 
-__View__
+__View__:  
 In the directory: ./views  
 - index.ejs
 
@@ -99,7 +99,7 @@ In the directory: ./views
 	</div>
 </div>
 ```
-__Controller__
+__Controller__:  
 In the directory: ./controllers  
 - userController.js
 ```javascript
