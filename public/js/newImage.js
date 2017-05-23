@@ -31,7 +31,7 @@ socket.on('newPic', (data) => {
 
 					document.body.insertAdjacentHTML('afterbegin', `
 						<div class="stay">
-							<p>New title unlocked: <span>${res.data.title}</span></p>
+							<p>New title unlocked: 🎉🎉 <span> ${res.data.title} </span> 🎉🎉</p>
 						</div>
 					`)
 
